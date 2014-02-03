@@ -5,6 +5,7 @@ var height = parseInt(svg.getAttribute("height"));
 var ratio = width / items;
 var max = -Infinity;
 var min = Infinity;
+//draw axes and title
 new Line()
     .x1(70).y1(0).x2(70).y2(height-15)
     .stroke('black').strokeWidth(2)
@@ -30,7 +31,6 @@ for (i = 0; i < items; i++) {
 for (j = 0; j < 6; j++) {
     var q = new Text().x(0).y(height - (100 + (height - 160) / 5 * j))
 	.text((max - min) * j / 5 + min).draw(svg);
-    console.log(q.y());
 }
 
 //label x-axis and draw time series
@@ -42,8 +42,8 @@ for (k = 0; k < items-2; k++) {
     }
 
     new Line().x1(70 + k * (ratio - 150/items))
-	.y1(height - 100 - (parseInt(co2[k]["level"]) - min) / (max - min) * (height - 160))
+	.y1(height - 100 - (parseFloat(co2[k]["level"]) - min) / (max - min) * (height - 160))
 	.x2(70 + (k + 1) * (ratio - 150 / items))
-	.y2(height - 100 - (parseInt(co2[k+1]["level"]) - min) / (max - min) * (height - 160))
+	.y2(height - 100 - (parseFloat(co2[k+1]["level"]) - min) / (max - min) * (height - 160))
 	.stroke("black").strokeWidth(1).draw(svg);
 }
