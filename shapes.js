@@ -1,21 +1,17 @@
 function Dictionary() {}
 
 function Shape() {
-    this.attrs = 0;
-    this.keys = new Array(8);
-    this.values = new Array(8);
     this.dict = new Dictionary();
 }
 Shape.prototype.depict = function(svg, type) {
     var obj = document.createElementNS("http://www.w3.org/2000/svg", type);
-  //  for (var k = 0; k < this.attrs; k++) {
-//	obj.setAttribute(this.keys[k], this.values[k]);
-    //}
     for (var key in this.dict) {
+	console.log(key + ": " + this.dict[key]);
 	obj.setAttribute(key, this.dict[key]);
     }
+    console.log(type);
     svg.appendChild(obj);
-};
+}
 
 function Line() {
     Shape.call(this);
@@ -23,50 +19,32 @@ function Line() {
 Line.prototype = Object.create(Shape.prototype);
 Line.prototype.constructor = Line;
 Line.prototype.x1 = function(value) {
-    this.keys[this.attrs] = "x1";
-    this.values[this.attrs] = value;
-    this.attrs += 1;
     this.dict["x1"] = value;
     return this;
-};
+}
 Line.prototype.x2 = function(value) {
-    this.keys[this.attrs] = "x2";
-    this.values[this.attrs] = value;
-    this.attrs += 1;
     this.dict["x2"] = value;
     return this;
-};
+}
 Line.prototype.y1 = function(value) {
-    this.keys[this.attrs] = "y1";
-    this.values[this.attrs] = value;
-    this.attrs += 1;
     this.dict["y1"] = value;
     return this;
-};
+}
 Line.prototype.y2 = function(value) {
-    this.keys[this.attrs] = "y2";
-    this.values[this.attrs] = value;
-    this.attrs += 1;
     this.dict["y2"] = value;
     return this;
-};
+}
 Line.prototype.stroke = function(value) {
-    this.keys[this.attrs] = "stroke";
-    this.values[this.attrs] = value;
-    this.attrs += 1;
     this.dict["stroke"] = value;
     return this;
-};
+}
 Line.prototype.strokeWidth = function(value) {
-    this.keys[this.attrs] = "stroke-width";
-    this.values[this.attrs] = value;
-    this.attrs += 1;
     this.dict["stroke-width"] = value;
     return this;
 }
 Line.prototype.draw = function(svg) {
     this.depict(svg, "line");
-};
+}
 
 function Circle() {
     Shape.call(this);
@@ -74,55 +52,90 @@ function Circle() {
 Circle.prototype = Object.create(Shape.prototype);
 Circle.prototype.constructor = Circle;
 Circle.prototype.cx = function(value) {
-    this.keys[this.attrs] = "cx";
-    this.values[this.attrs] = value;
-    this.attrs += 1;
+    this.dict["cx"] = value;
     return this;
-};
+}
 Circle.prototype.cy = function(value) {
-    this.keys[this.attrs] = "cy";
-    this.values[this.attrs] = value;
-    this.attrs += 1;
-
+    this.dict["cy"] = value;
     return this;
-};
+}
 Circle.prototype.center = function(value1, value2) {
-    this.keys[this.attrs] = "y1";
-    this.values[this.attrs] = value;
-    this.attrs += 1;
-
+    this.dict["cx"] = value1;
+    this.dict["cy"] = value2;
     return this;
-};
+}
 Circle.prototype.width = function(value) {
-    this.keys[this.attrs] = "y2";
-    this.values[this.attrs] = value;
-    this.attrs += 1;
-
+    this.dict["r"] = parseInt(value) / 2;
     return this;
-};
+}
 Circle.prototype.stroke = function(value) {
-    this.keys[this.attrs] = "stroke";
-    this.values[this.attrs] = value;
-    this.attrs += 1;
-
+    this.dict["stroke"] = value;
     return this;
-};
+}
 Circle.prototype.strokeWidth = function(value) {
-    this.keys[this.attrs] = "stroke-width";
-    this.values[this.attrs] = value;
-    this.attrs += 1;
-
+    this.dict["stroke-width"] = value;
     return this;
 }
 
 Circle.prototype.fill = function(value) {
-    this.keys[this.attrs] = "fill";
-    this.values[this.attrs] = value;
-    this.attrs += 1;
-    
+    this.dict["fill"] = value;
     return this;
 }
 
 Circle.prototype.draw = function(svg) {
-    this.depict(svg, "line");
-};
+    this.depict(svg, "circle");
+}
+
+
+function Rectangle() {
+    Shape.call(this);
+}
+Rectangle.prototype = Object.create(Shape.prototype);
+Rectangle.prototype.constructor = Rectangle;
+Rectangle.prototype.cx = function(value) {
+    this.cx = value;
+    return this;
+}
+Rectangle.prototype.cy = function(value) {
+    this.cy = value;
+    return this;
+}
+Rectangle.prototype.center = function(value1, value2) {
+    this.cx = value1;
+    this.cy = value2;
+    return this;
+}
+Rectangle.prototype.width = function(value) {
+    this.dict["width"] = value;
+    return this;
+}
+
+Rectangle.prototype.height = function(value) {
+    this.dict["height"] = value;
+    return this;
+}
+
+Rectangle.prototype.stroke = function(value) {
+    this.dict["stroke"] = value;
+    return this;
+}
+Rectangle.prototype.strokeWidth = function(value) {
+    this.dict["stroke-width"] = value;
+    return this;
+}
+
+Rectangle.prototype.fill = function(value) {
+    this.dict["fill"] = value;
+    return this;
+}
+
+Rectangle.prototype.draw = function(svg) {
+    this.dict["x"] = parseInt(this.cx) - (parseInt(this.dict["width"]) / 2);
+    this.dict["y"] = parseInt(this.cy) - (parseInt(this.dict["height"]) / 2);
+    this.depict(svg, "rect");
+}
+
+function Square() {
+    Rectangle.call(this);
+}
+
