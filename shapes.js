@@ -6,7 +6,7 @@ function Shape() {
 Shape.prototype.depict = function(svg, type) {
     var obj = document.createElementNS("http://www.w3.org/2000/svg", type);
     for (var key in this.dict) {
-	console.log(key + ": " + this.dict[key]);
+//	console.log(key + ": " + this.dict[key]);
 	obj.setAttribute(key, this.dict[key]);
     }
     console.log(type);
@@ -139,3 +139,42 @@ function Square() {
     Rectangle.call(this);
 }
 
+Square.prototype = Object.create(Rectangle.prototype);
+Square.prototype.constructor = Square;
+
+Square.prototype.width = function(value) {
+    this.dict["width"] = value;
+    this.dict["height"] = value;
+    return this;
+}
+
+function Text() {
+    Shape.call(this);
+}
+
+Text.prototype = Object.create(Shape.prototype);
+Text.prototype.constructor = Text;
+
+Text.prototype.x = function(value) {
+    this.dict["x"] = value;
+    return this;
+}
+
+Text.prototype.y = function(value) {
+    this.dict["y"] = value;
+    return this;
+}
+
+Text.prototype.text = function(value) {
+    this.dict["text"] = value;
+    return this;
+}
+
+Text.prototype.draw = function(svg) {
+    var obj = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    obj.setAttribute("x", this.dict[x]);
+    obj.setAttribute("y", this.dict[y]);
+    var words = document.createTextNode(this.dict["text"]);
+    obj.appendChild(words);
+    svg.appendChild(obj);
+}
