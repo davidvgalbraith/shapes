@@ -45,7 +45,7 @@ for (j = 0; j < 6; j++) {
 
 //label x-axis and draw time series
 for (k = 0; k < items-2; k++) {
-
+    int divide = info[k].indexOf(' ');
     if (k % 5 == 0) {
 	new Text().x((ratio - 150/items) * k + 70).y(height)
 	    .text(latlong[k]["lat"].substring(0, 4)).draw(svg);
